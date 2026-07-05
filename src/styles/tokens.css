@@ -1,0 +1,23 @@
+:root {
+  --paper: #f7f4ee;
+  --paper-alt: #fcfaf5;
+  --ink: #2e2c29;
+  --line: #e3ddd2;
+  --accent: #7e9bd0;
+  --clay: #c99a7c;
+  --sage: #9cae96;
+
+  --ink-90: rgba(46, 44, 41, 0.9);
+  --ink-68: rgba(46, 44, 41, 0.68);
+  --ink-65: rgba(46, 44, 41, 0.65);
+  --ink-5: rgba(46, 44, 41, 0.5);
+  --ink-4: rgba(46, 44, 41, 0.4);
+
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --font-body: 'Inter', sans-serif;
+  --font-serif: 'Newsreader', serif;
+
+  --radius: 3px;
+  --shadow-page: 0 1px 3px rgba(0, 0, 0, 0.12), 0 18px 50px rgba(0, 0, 0, 0.07);
+}

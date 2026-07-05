@@ -1,0 +1,29 @@
+@import './tokens.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+}
+
+.mono-label {
+  font: 400 12px/1.4 var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
