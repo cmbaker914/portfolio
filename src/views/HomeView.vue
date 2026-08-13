@@ -10,26 +10,27 @@ import { site, projects, posts } from '../data/content.js'
       <span class="dim">{{ site.version }}</span>
     </div>
 
-    <div class="hero">
+    <div class="hero" v-reveal:none="{ threshold: 0 }">
       <img src="/nasa.png" alt="" class="hero-image" />
     </div>
 
     <div class="intro">
-      <div class="mono-label sage">// source: NASA landsat</div>
-      <h1 class="title">{{ site.name }} — {{ site.role.toLowerCase() }}</h1>
-      <p class="lead">
+      <div class="mono-label sage" v-reveal="{ delay: 0 }">// source: NASA landsat</div>
+      <h1 class="title" v-reveal="{ delay: 90 }">{{ site.name }} — {{ site.role.toLowerCase() }}</h1>
+      <p class="lead" v-reveal="{ delay: 180 }">
         Biomedical engineer, neuroscientist, and machine learning engineer
       </p>
     </div>
 
     <div class="section">
-      <div class="section-label">Projects</div>
+      <div class="section-label" v-reveal>Projects</div>
       <div class="index-grid">
         <RouterLink
           v-for="(p, i) in projects"
           :key="p.slug"
           :to="{ path: '/projects', hash: `#${p.slug}` }"
           class="index-tile"
+          v-reveal="{ delay: i * 90 }"
         >
           <div class="index-tile-canvas">
             <img v-if="p.image" :src="p.image" :alt="p.title" class="index-tile-image" />
@@ -44,12 +45,13 @@ import { site, projects, posts } from '../data/content.js'
     </div>
 
     <div class="section">
-      <div class="section-label">Recent notes</div>
+      <div class="section-label" v-reveal>Recent notes</div>
       <RouterLink
-        v-for="post in posts"
+        v-for="(post, i) in posts"
         :key="post.slug"
         :to="`/blog/${post.slug}`"
         class="note-row"
+        v-reveal:left="{ delay: i * 80 }"
       >
         <span class="note-date">{{ post.date }}</span>
         <span class="note-title">{{ post.title }}</span>
@@ -57,7 +59,7 @@ import { site, projects, posts } from '../data/content.js'
       </RouterLink>
     </div>
 
-    <div class="terminal-footer">// EOF — {{ site.email }}</div>
+    <div class="terminal-footer" v-reveal>// EOF — {{ site.email }}</div>
   </div>
 </template>
 
