@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import CanvasViz from '../components/CanvasViz.vue'
 import { site, projects, posts } from '../data/content.js'
 </script>

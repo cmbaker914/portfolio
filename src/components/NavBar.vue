@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { nav, site } from '../data/content.js'
 </script>
 

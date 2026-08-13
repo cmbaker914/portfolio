@@ -1,7 +1,70 @@
 // Edit this file with your real information — everything here is placeholder
 // content carried over from the design mockup.
 
-export const site = {
+export interface SiteMeta {
+  name: string
+  role: string
+  cvSubtitle: string
+  email: string
+  terminalUser: string
+  version: string
+}
+
+export interface NavItem {
+  label: string
+  to: string
+}
+
+export interface Project {
+  n: string
+  slug: string
+  title: string
+  tag: string
+  year: string
+  fig: string
+  image?: string
+  link?: string
+  blurb: string
+  long: string
+}
+
+export interface Post {
+  slug: string
+  date: string
+  kicker: string
+  title: string
+  read: string
+  author: string
+  body: string[]
+  pullQuote?: string
+  bodyAfterQuote?: string[]
+  figureCaption?: string
+  closing?: string
+}
+
+export interface ExperienceEntry {
+  org: string
+  location: string
+  title: string
+  year: string
+  bullets?: string[]
+  // Optional single-paragraph alternative to `bullets`, rendered by CVView.
+  body?: string
+}
+
+export interface EducationEntry {
+  org: string
+  location: string
+  title: string
+  year: string
+}
+
+export interface SkillGroup {
+  label: string
+  items: string[]
+}
+
+export const site: SiteMeta = {
   name: 'Casey Baker, PhD',
   role: 'Machine Learning Researcher',
   cvSubtitle: 'Machine learning · neuroscience · remote sensing',
@@ -10,14 +73,14 @@ export const site = {
   version: 'v0.0.1 · 2026',
 }
 
-export const nav = [
+export const nav: NavItem[] = [
   { label: "Projects", to: '/projects' },
   { label: 'Blog', to: '/blog' },
   { label: 'CV', to: '/cv' },
   { label: 'Home', to: '/' },
 ]
 
-export const projects = [
+export const projects: Project[] = [
   {
     n: '01',
     slug: 'lidar-detection',
@@ -63,7 +126,7 @@ export const projects = [
   },
 ]
 
-export const posts = [
+export const posts: Post[] = [
   {
     slug: 'what-a-umap-can-tell-you',
     date: 'May 2026',
@@ -103,7 +166,7 @@ export const posts = [
   },
 ]
 
-export const experience = [
+export const experience: ExperienceEntry[] = [
   {
     org: 'Expedition Technology',
     location: 'Herndon, VA',
@@ -137,7 +200,7 @@ export const experience = [
   },
 ]
 
-export const education = [
+export const education: EducationEntry[] = [
   {
     org: 'Duke University',
     location: 'Durham, NC',
@@ -152,7 +215,7 @@ export const education = [
   },
 ]
 
-export const publications = [
+export const publications: string[] = [
   'Baker, C., Daniel, B., Immel, E., Bogart, C. (2025). Object Detection on Streaming LiDAR Data with Active Learning. Military Sensing Symposia — Active E-O Systems.',
   'Baker, C., Gong, Y. (2023). A semi-supervised pipeline for accurate neuron segmentation with fewer ground truth labels. eNeuro.',
   'Baker, C., Gong, Y. (2023). Identifying properties of pattern completion neurons in a computational model of the visual cortex. PLoS Computational Biology.',
@@ -161,7 +224,7 @@ export const publications = [
   'Ji, N., Madan, G., Fabre, G., Dayan, A., Baker, C., Kramer, T., Nwabudike, I., Flavell, S. (2021). A neural circuit for flexible control of persistent behavioral states. eLife.',
 ]
 
-export const skillGroups = [
+export const skillGroups: SkillGroup[] = [
   { label: 'Languages', items: ['Python', 'MATLAB', 'R'] },
   {
     label: 'Frameworks / libraries',

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { posts } from '../data/content.js'
 </script>
 

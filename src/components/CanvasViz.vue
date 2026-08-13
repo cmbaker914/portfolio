@@ -1,19 +1,32 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref } from 'vue'
 
 // Ported from the design mockup's canvas-drawing logic. `type` selects the
 // generator family (ecg / umap / contour / mini / divider); `kind` selects
 // the specific figure within the `mini` / `divider` families.
-const props = defineProps({
-  type: { type: String, required: true },
-  kind: { type: String, default: '' },
-  seed: { type: [Number, String], default: 7 },
-  width: { type: Number, default: 360 },
-  height: { type: Number, default: 120 },
-})
+const props = withDefaults(
+  defineProps<{
+    type: string
+    kind?: string
+    seed?: number | string
+    width?: number
+    height?: number
+  }>(),
+  {
+    kind: '',
+    seed: 7,
+    width: 360,
+    height: 120,
+  },
+)
 
-const canvasRef = ref(null)
-let raf = null
+interface DrawItem {
+  animated: boolean
+  draw: (t: number) => void
+}
+
+const canvasRef = ref<HTMLCanvasElement | null>(null)
+let raf: number | null = null
 
 const COLORS = {
   PAPER: '#F7F4EE',
@@ -24,8 +37,8 @@ const COLORS = {
   LINE: '#E3DDD2',
 }
 
-function makeRng(seed) {
-  let s = (parseInt(seed, 10) || 7) * 9301 + 49297
+function makeRng(seed: number | string) {
+  let s = (parseInt(String(seed), 10) || 7) * 9301 + 49297
   const rnd = () => {
     s = (s * 1103515245 + 12345) & 0x7fffffff
     return s / 0x7fffffff
@@ -34,18 +47,32 @@ function makeRng(seed) {
   return { rnd, nrm }
 }
 
-function setup(cv, type, kind, seed) {
+function setup(
+  cv: HTMLCanvasElement,
+  type: string,
+  kind: string,
+  seed: number | string,
+): DrawItem {
   const ctx = cv.getContext('2d')
+  if (!ctx) return { animated: false, draw: () => {} }
   const W = cv.width
   const H = cv.height
   const C = COLORS
   const { rnd, nrm } = makeRng(seed)
 
   if (type === 'umap') {
+    interface Point {
+      x: number
+      y: number
+      r: number
+      c: string
+      ph: number
+      amp: number
+    }
     const palette = [C.ACCENT, C.CLAY, C.SAGE, '#8E86A8', '#6f93c6']
     const cx = [0.22, 0.42, 0.6, 0.76, 0.88]
     const cy = [0.56, 0.32, 0.64, 0.4, 0.54]
-    const pts = []
+    const pts: Point[] = []
     for (let k = 0; k < 5; k++) {
       const bx = W * cx[k]
       const by = H * cy[k]
@@ -83,7 +110,20 @@ function setup(cv, type, kind, seed) {
   }
 
   if (type === 'contour') {
-    const centers = []
+    interface Center {
+      bx: number
+      by: number
+      a: number
+      sg: number
+      ph: number
+      rx: number
+      ry: number
+      sp: number
+      // Recomputed each frame from the base position before use.
+      cx: number
+      cy: number
+    }
+    const centers: Center[] = []
     for (let i = 0; i < 5; i++)
       centers.push({
         bx: W * (0.15 + 0.7 * rnd()),
@@ -94,6 +134,8 @@ function setup(cv, type, kind, seed) {
         rx: 18 + rnd() * 22,
         ry: 14 + rnd() * 18,
         sp: 0.12 + rnd() * 0.16,
+        cx: 0,
+        cy: 0,
       })
     const gs = 14
     const cols = Math.ceil(W / gs)
@@ -164,8 +206,8 @@ function setup(cv, type, kind, seed) {
               if (!segs.length) continue
               const x0 = i * gs
               const y0 = j * gs
-              const ep = (e) => {
-                const lp = (a, b) => {
+              const ep = (e: number): [number, number] => {
+                const lp = (a: number, b: number) => {
                   const d = b - a
                   return Math.abs(d) < 1e-9 ? 0.5 : (T - a) / d
                 }
@@ -204,11 +246,11 @@ function setup(cv, type, kind, seed) {
     // lets every tile pick its own period/phase/colors as a pure function
     // of (col, row, epoch), so a frame can be redrawn from scratch each
     // tick with no per-tile state to keep in sync.
-    const hash = (x, y, z) => {
+    const hash = (x: number, y: number, z: number) => {
       const v = Math.sin(x * 12.9898 + y * 78.233 + z * 37.719) * 43758.5453
       return v - Math.floor(v)
     }
-    const smooth = (x) => x * x * (3 - 2 * x)
+    const smooth = (x: number) => x * x * (3 - 2 * x)
 
     return {
       animated: true,
@@ -267,7 +309,7 @@ function setup(cv, type, kind, seed) {
           const P = 64
           const mid = H * 0.56
           const amp = H * 0.5
-          const g = (p, m, sd) => Math.exp(-((p - m) ** 2) / (2 * sd * sd))
+          const g = (p: number, m: number, sd: number) => Math.exp(-((p - m) ** 2) / (2 * sd * sd))
           ctx.strokeStyle = C.ACCENT
           ctx.lineWidth = 1.6
           ctx.lineJoin = 'round'
@@ -371,10 +413,11 @@ function setup(cv, type, kind, seed) {
 
 onMounted(() => {
   const cv = canvasRef.value
+  if (!cv) return
   const item = setup(cv, props.type, props.kind, props.seed)
   const start = performance.now()
   if (item.animated) {
-    const tick = (now) => {
+    const tick = (now: number) => {
       item.draw((now - start) / 1000)
       raf = requestAnimationFrame(tick)
     }

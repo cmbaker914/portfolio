@@ -1,11 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import CanvasViz from '../components/CanvasViz.vue'
 import { posts } from '../data/content.js'
 
 const route = useRoute()
-const post = computed(() => posts.find((p) => p.slug === route.params.slug))
+const post = computed(() => {
+  const slug = String(route.params.slug)
+  return posts.find((p) => p.slug === slug)
+})
 </script>
 
 <template>

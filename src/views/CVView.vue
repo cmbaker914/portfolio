@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import CanvasViz from '../components/CanvasViz.vue'
 import { site, experience, education, publications, skillGroups } from '../data/content.js'
 </script>
