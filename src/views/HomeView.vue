@@ -1,6 +1,6 @@
 <script setup>
 import CanvasViz from '../components/CanvasViz.vue'
-import { site, miniKinds, posts } from '../data/content.js'
+import { site, projects, posts } from '../data/content.js'
 </script>
 
 <template>
@@ -11,30 +11,35 @@ import { site, miniKinds, posts } from '../data/content.js'
     </div>
 
     <div class="hero">
-      <CanvasViz type="ecg" :seed="5" :width="1180" :height="200" />
+      <img src="/nasa.png" alt="" class="hero-image" />
     </div>
 
     <div class="intro">
-      <div class="mono-label sage">// now reading: 12-lead ecg</div>
+      <div class="mono-label sage">// source: NASA landsat</div>
       <h1 class="title">{{ site.name }} — {{ site.role.toLowerCase() }}</h1>
       <p class="lead">
-        Models for medical signals and pathology images. This is the lab-notebook cut of my
-        site: indexes, small multiples, and not much fuss.
+        Biomedical engineer, neuroscientist, and machine learning engineer
       </p>
     </div>
 
     <div class="section">
-      <div class="section-label">Index — pick a thread</div>
+      <div class="section-label">Projects</div>
       <div class="index-grid">
-        <a v-for="(m, i) in miniKinds" :key="m.kind" href="#" class="index-tile">
+        <RouterLink
+          v-for="(p, i) in projects"
+          :key="p.slug"
+          :to="{ path: '/projects', hash: `#${p.slug}` }"
+          class="index-tile"
+        >
           <div class="index-tile-canvas">
-            <CanvasViz type="mini" :kind="m.kind" :seed="i" :width="360" :height="120" />
+            <img v-if="p.image" :src="p.image" :alt="p.title" class="index-tile-image" />
+            <CanvasViz v-else type="mini" :kind="p.fig" :seed="i" :width="360" :height="120" />
           </div>
           <div class="index-tile-row">
-            <span class="index-label">{{ m.label }}</span>
+            <span class="index-label">{{ p.title }}</span>
             <span class="index-arrow">→</span>
           </div>
-        </a>
+        </RouterLink>
       </div>
     </div>
 
@@ -75,6 +80,14 @@ import { site, miniKinds, posts } from '../data/content.js'
   position: relative;
   height: 200px;
   border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.hero-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .intro {
@@ -113,7 +126,7 @@ import { site, miniKinds, posts } from '../data/content.js'
 
 .index-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
@@ -135,6 +148,14 @@ import { site, miniKinds, posts } from '../data/content.js'
 
 .index-tile-canvas {
   height: 96px;
+  overflow: hidden;
+}
+
+.index-tile-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .index-tile-row {

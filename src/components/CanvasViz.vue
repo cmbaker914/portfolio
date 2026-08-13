@@ -188,49 +188,50 @@ function setup(cv, type, kind, seed) {
     }
   }
 
-  if (type === 'ecg') {
-    const P = 240
-    const mid = H * 0.56
-    const amp = H * 0.42
-    const g = (ph, m, sd) => Math.exp(-((ph - m) * (ph - m)) / (2 * sd * sd))
-    const wave = (ph) =>
-      0.13 * g(ph, 0.12, 0.03) -
-      0.09 * g(ph, 0.34, 0.012) +
-      1.0 * g(ph, 0.4, 0.01) -
-      0.2 * g(ph, 0.46, 0.016) +
-      0.24 * g(ph, 0.66, 0.05)
+  if (type === 'spectrogram') {
+    const cols = Math.max(8, Math.round(W / 14))
+    const rows = Math.max(4, Math.round(H / 14))
+    const tileW = W / cols
+    const tileH = H / rows
+    const gap = 1
+    const palette = [C.ACCENT, C.CLAY, C.SAGE, '#8E86A8', '#6f93c6']
+    const rgb = palette.map((hex) => {
+      const n = parseInt(hex.slice(1), 16)
+      return [(n >> 16) & 255, (n >> 8) & 255, n & 255]
+    })
+
+    // Deterministic pseudo-random in [0,1) from a few integer/float seeds —
+    // lets every tile pick its own period/phase/colors as a pure function
+    // of (col, row, epoch), so a frame can be redrawn from scratch each
+    // tick with no per-tile state to keep in sync.
+    const hash = (x, y, z) => {
+      const v = Math.sin(x * 12.9898 + y * 78.233 + z * 37.719) * 43758.5453
+      return v - Math.floor(v)
+    }
+    const smooth = (x) => x * x * (3 - 2 * x)
+
     return {
       animated: true,
       draw: (t) => {
-        ctx.clearRect(0, 0, W, H)
-        ctx.fillStyle = C.PAPER
+        ctx.fillStyle = C.LINE
         ctx.fillRect(0, 0, W, H)
-        ctx.strokeStyle = C.LINE
-        ctx.globalAlpha = 0.8
-        ctx.lineWidth = 1
-        ctx.beginPath()
-        for (let x = 0; x <= W; x += 24) {
-          ctx.moveTo(x, 0)
-          ctx.lineTo(x, H)
+        for (let row = 0; row < rows; row++) {
+          for (let col = 0; col < cols; col++) {
+            const period = 2.2 + hash(col, row, 1) * 3.4
+            const phase = hash(col, row, 2) * period
+            const te = t + phase
+            const epoch = Math.floor(te / period)
+            const frac = te / period - epoch
+            const from = rgb[Math.floor(hash(col, row, epoch - 0.5) * palette.length)]
+            const to = rgb[Math.floor(hash(col, row, epoch + 0.5) * palette.length)]
+            const blend = frac < 0.3 ? smooth(frac / 0.3) : 1
+            const r = from[0] + (to[0] - from[0]) * blend
+            const g = from[1] + (to[1] - from[1]) * blend
+            const b = from[2] + (to[2] - from[2]) * blend
+            ctx.fillStyle = `rgb(${r | 0}, ${g | 0}, ${b | 0})`
+            ctx.fillRect(col * tileW + gap / 2, row * tileH + gap / 2, tileW - gap, tileH - gap)
+          }
         }
-        for (let y = 0; y <= H; y += 24) {
-          ctx.moveTo(0, y)
-          ctx.lineTo(W, y)
-        }
-        ctx.stroke()
-        ctx.globalAlpha = 1
-        const scroll = t * 80
-        ctx.strokeStyle = C.ACCENT
-        ctx.lineWidth = 2.2
-        ctx.lineJoin = 'round'
-        ctx.beginPath()
-        for (let x = 0; x <= W; x++) {
-          const ph = (((x + scroll) % P) + P) % P / P
-          const y = mid - wave(ph) * amp
-          if (x === 0) ctx.moveTo(x, y)
-          else ctx.lineTo(x, y)
-        }
-        ctx.stroke()
       },
     }
   }

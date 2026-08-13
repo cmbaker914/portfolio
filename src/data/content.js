@@ -2,31 +2,34 @@
 // content carried over from the design mockup.
 
 export const site = {
-  name: 'Iris Calderón',
-  role: 'Biomedical ML researcher',
-  email: 'iris@fieldnotes.bio',
-  terminalUser: 'iris.calderón@lab:~$ ./portfolio',
-  version: 'v2.6 · 2026',
+  name: 'Casey Baker, PhD',
+  role: 'Machine Learning Researcher',
+  cvSubtitle: 'Machine learning · neuroscience · remote sensing',
+  email: 'cmbaker191@gmail.com',
+  terminalUser: 'casey.baker@lab:~$ ./portfolio',
+  version: 'v0.0.1 · 2026',
 }
 
 export const nav = [
-  { label: "Things I've made", to: '/projects' },
-  { label: 'Field notes', to: '/blog' },
+  { label: "Projects", to: '/projects' },
+  { label: 'Blog', to: '/blog' },
   { label: 'CV', to: '/cv' },
-  { label: 'Hi', to: '/' },
+  { label: 'Home', to: '/' },
 ]
 
 export const projects = [
   {
     n: '01',
-    slug: 'latent-anatomies',
-    title: 'Latent anatomies',
-    tag: 'representation learning',
+    slug: 'lidar-detection',
+    title: 'Object Detection on Streaming LiDAR Data with Active Learning',
+    tag: 'active learning',
     year: '2025',
     fig: 'scatter',
+    image: '/lidar.jpg',
+    link: 'https://www.exptechinc.com/wp-content/uploads/2025/05/Baker_MSS_Paper_AprilMay_2025_Approved.pdf',
     blurb:
-      'Self-supervised embeddings of whole-slide pathology — what a tumor looks like before anyone labels it.',
-    long: 'Self-supervised embeddings of whole-slide pathology images. The model learns tissue structure with no labels, then a thin classifier on top matches supervised baselines with a fraction of the annotation.',
+      'Published in Military Sensing Symposia Active E-O Systems',
+    long: 'Developed a diversity-based active learning method for object detection on streaming LiDAR point clouds, addressing the limitations of previous methods that were restricted to non-streaming 2D data. Normalized Object Distribution Entropy (NODE) outperformed standard uncertainty-based approaches by achieving higher detection accuracy with fewer labeled samples, thereby improving labeling efficiency for remote sensing and other computer vision applications.',
   },
   {
     n: '02',
@@ -100,43 +103,69 @@ export const posts = [
   },
 ]
 
-export const miniKinds = [
-  { kind: 'scatter', label: 'embeddings' },
-  { kind: 'ecg2', label: 'signals' },
-  { kind: 'bars', label: 'benchmarks' },
-  { kind: 'heat', label: 'attention' },
-  { kind: 'contour2', label: 'loss surface' },
-  { kind: 'hist', label: 'calibration' },
-]
-
-export const tools = ['PyTorch', 'JAX', 'numpy', 'R', 'SQL', 'Slurm', 'Rust', 'D3']
-
 export const experience = [
   {
-    year: '2024',
-    title: 'Research intern, Health AI',
-    body: 'Uncertainty calibration for clinical triage models. Shipped a thing clinicians actually trusted.',
+    org: 'Expedition Technology',
+    location: 'Herndon, VA',
+    title: 'Machine Learning Engineer, Scrum Master',
+    year: '2024 — Present',
+    bullets: [
+      'Designed an active learning metric for imbalanced 3D point cloud data streams, improving object detection accuracy by 25% on rare classes, maintaining performance on common classes, and reducing manual labeling by 10%.',
+      'Developed a pipeline to reduce speckle noise from commercial radar images and train a transformer-based masked autoencoder for object detection in radar images with varying resolutions.',
+      'Collaborated in teams of 4–7 developers to design and evaluate deep learning pipelines for trajectory data and remote sensing image analysis, including anomaly detection, adversarial robustness, self-supervised pretraining, and 2D/3D object detection.',
+    ],
   },
   {
-    year: '2020—2026',
-    title: 'Graduate researcher, ML & Medicine Lab',
-    body: 'Self-supervised representation learning for pathology and ECG. First-author work at NeurIPS, ICML, Nat. Mach. Intell.',
+    org: 'Duke University',
+    location: 'Durham, NC',
+    title: 'PhD Candidate, NSF Graduate Research Fellow',
+    year: '2020 — 2023',
+    bullets: [
+      'Built a deep learning pipeline to predict underlying neural activity using spatiotemporal information from fluorescence videos, improving detection of low signal-to-noise events and spike rate prediction by 14%.',
+      'Designed a semi-supervised deep learning pipeline for neuron segmentation using ¼ as many ground truth labels as fully supervised methods, while maintaining accuracy on par with human labeling.',
+      'Developed a computational model of the visual cortex and applied machine learning to identify network properties of optimal pattern completion neurons.',
+    ],
+  },
+  {
+    org: 'Massachusetts Institute of Technology',
+    location: 'Cambridge, MA',
+    title: 'Senior Research Support Associate',
+    year: '2018 — 2020',
+    bullets: [
+      'Performed and analyzed experiments testing the behavioral effects of activating and silencing neurons in C. elegans.',
+    ],
   },
 ]
 
 export const education = [
   {
-    year: '2026',
-    title: 'PhD, Biomedical Informatics',
-    body: 'Dissertation: honest representations for clinical machine learning.',
+    org: 'Duke University',
+    location: 'Durham, NC',
+    title: 'PhD, Biomedical Engineering · Certificate in College Teaching · GPA 4.0',
+    year: '2020 — 2023',
   },
-  { year: '2019', title: 'BS, Computer Science & Biology' },
+  {
+    org: 'University of Virginia',
+    location: 'Charlottesville, VA',
+    title: 'B.S. Biomedical Engineering, B.A. Psychology · GPA 3.91',
+    year: '2014 — 2018',
+  },
 ]
 
-export const awards = ['NeurIPS 2025 — Oral', 'NSF Graduate Fellowship', 'Best Paper, ML4H 2024']
+export const publications = [
+  'Baker, C., Daniel, B., Immel, E., Bogart, C. (2025). Object Detection on Streaming LiDAR Data with Active Learning. Military Sensing Symposia — Active E-O Systems.',
+  'Baker, C., Gong, Y. (2023). A semi-supervised pipeline for accurate neuron segmentation with fewer ground truth labels. eNeuro.',
+  'Baker, C., Gong, Y. (2023). Identifying properties of pattern completion neurons in a computational model of the visual cortex. PLoS Computational Biology.',
+  'Huang, Y-C., Luo, J., Huang, W., Baker, C., Gomes, M., Byrne, A., Flavell, S. (2023). A single neuron in C. elegans orchestrates multiple motor outputs through parallel modes of transmission. Current Biology.',
+  'Beltzer, M., Moulder, R., Baker, C., Comer, K., Teachman, B. (2022). Effects of mass shootings on mental illness stigma in the United States. Personality and Social Psychology Bulletin.',
+  'Ji, N., Madan, G., Fabre, G., Dayan, A., Baker, C., Kramer, T., Nwabudike, I., Flavell, S. (2021). A neural circuit for flexible control of persistent behavioral states. eLife.',
+]
 
-export const talks = [
-  '“Honest embeddings” — NeurIPS',
-  '“Calibration for skeptics” — ML4H',
-  '“Reading the body” — invited keynote',
+export const skillGroups = [
+  { label: 'Languages', items: ['Python', 'MATLAB', 'R'] },
+  {
+    label: 'Frameworks / libraries',
+    items: ['TensorFlow', 'PyTorch', 'Scikit-learn', 'OpenCV', 'NetworkX', 'NumPy', 'Pandas', 'Ray'],
+  },
+  { label: 'MLOps', items: ['CI/CD', 'Docker', 'Git', 'MLflow', 'Airflow'] },
 ]

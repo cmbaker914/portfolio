@@ -14,7 +14,8 @@ const router = createRouter({
     { path: '/blog/:slug', name: 'post', component: PostView },
     { path: '/cv', name: 'cv', component: CVView },
   ],
-  scrollBehavior() {
+  scrollBehavior(to) {
+    if (to.hash) return { el: to.hash, behavior: 'smooth' }
     return { top: 0 }
   },
 })

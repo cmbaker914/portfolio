@@ -1,21 +1,21 @@
 <script setup>
 import CanvasViz from '../components/CanvasViz.vue'
-import { site, experience, education, awards, tools, talks } from '../data/content.js'
+import { site, experience, education, publications, skillGroups } from '../data/content.js'
 </script>
 
 <template>
   <div>
     <div class="hero">
       <div class="hero-canvas">
-        <CanvasViz type="contour" :seed="9" :width="1180" :height="200" />
+        <CanvasViz type="spectrogram" :seed="9" :width="1180" :height="200" />
       </div>
       <div class="hero-content">
         <div>
           <div class="mono-label accent">Curriculum vitae</div>
-          <h1 class="title">{{ site.name }}, PhD</h1>
-          <p class="subtitle">{{ site.role }} · medical signals & computational pathology</p>
+          <h1 class="title">{{ site.name }}</h1>
+          <p class="subtitle">{{ site.cvSubtitle }}</p>
         </div>
-        <a href="#" class="pdf-link">Download PDF ↓</a>
+        <a href="/CaseyBakerResume2026.pdf" download class="pdf-link">Download PDF ↓</a>
       </div>
     </div>
 
@@ -26,7 +26,11 @@ import { site, experience, education, awards, tools, talks } from '../data/conte
           <div class="entry-year">{{ e.year }}</div>
           <div>
             <div class="entry-title">{{ e.title }}</div>
-            <div class="entry-body">{{ e.body }}</div>
+            <div class="entry-org">{{ e.org }} · {{ e.location }}</div>
+            <ul v-if="e.bullets" class="entry-bullets">
+              <li v-for="b in e.bullets" :key="b">{{ b }}</li>
+            </ul>
+            <div v-else-if="e.body" class="entry-body">{{ e.body }}</div>
           </div>
         </div>
 
@@ -35,25 +39,22 @@ import { site, experience, education, awards, tools, talks } from '../data/conte
           <div class="entry-year">{{ e.year }}</div>
           <div>
             <div class="entry-title">{{ e.title }}</div>
-            <div v-if="e.body" class="entry-body">{{ e.body }}</div>
+            <div class="entry-org">{{ e.org }} · {{ e.location }}</div>
           </div>
         </div>
       </div>
 
       <div>
-        <div class="col-heading">Selected awards</div>
+        <div class="col-heading">Publications</div>
         <div class="side-block">
-          <span v-for="(a, i) in awards" :key="a">{{ a }}<br v-if="i < awards.length - 1" /></span>
+          <p v-for="p in publications" :key="p" class="publication">{{ p }}</p>
         </div>
 
-        <div class="col-heading mt">Tools</div>
-        <div class="tools">
-          <span v-for="t in tools" :key="t" class="tool-chip">{{ t }}</span>
-        </div>
-
-        <div class="col-heading mt">Recent talks</div>
-        <div class="side-block">
-          <span v-for="(t, i) in talks" :key="t">{{ t }}<br v-if="i < talks.length - 1" /></span>
+        <div v-for="group in skillGroups" :key="group.label">
+          <div class="col-heading mt">{{ group.label }}</div>
+          <div class="tools">
+            <span v-for="t in group.items" :key="t" class="tool-chip">{{ t }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -73,7 +74,7 @@ import { site, experience, education, awards, tools, talks } from '../data/conte
   top: 0;
   width: 100%;
   height: 200px;
-  opacity: 0.45;
+  opacity: 0.22;
 }
 
 .hero-content {
@@ -151,17 +152,41 @@ import { site, experience, education, awards, tools, talks } from '../data/conte
   font: 500 18px var(--font-display);
 }
 
+.entry-org {
+  font: 400 12px var(--font-mono);
+  color: var(--clay);
+  margin-top: 4px;
+}
+
 .entry-body {
   font: 400 14px/1.5 var(--font-body);
   color: var(--ink-65);
   margin-top: 4px;
 }
 
+.entry-bullets {
+  font: 400 14px/1.5 var(--font-body);
+  color: var(--ink-65);
+  margin-top: 8px;
+  padding-left: 18px;
+}
+
+.entry-bullets li + li {
+  margin-top: 6px;
+}
+
 .side-block {
-  font: 400 14px/1.6 var(--font-body);
-  color: var(--ink-68);
   padding: 14px 0;
   border-bottom: 1px solid var(--line);
+}
+
+.publication {
+  font: 400 13px/1.55 var(--font-body);
+  color: var(--ink-68);
+}
+
+.publication + .publication {
+  margin-top: 12px;
 }
 
 .tools {

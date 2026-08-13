@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">© 2026 — more in the drawer, ask me</div>
+  <div class="footer">2026</div>
 </template>
 
 <style scoped>
