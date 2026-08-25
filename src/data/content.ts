@@ -1,6 +1,8 @@
 // Edit this file with your real information — everything here is placeholder
 // content carried over from the design mockup.
 
+import { asset } from '../lib/asset.js'
+
 export interface SiteMeta {
   name: string
   role: string
@@ -88,7 +90,7 @@ export const projects: Project[] = [
     tag: 'active learning',
     year: '2025',
     fig: 'scatter',
-    image: '/lidar.jpg',
+    image: asset('lidar.jpg'),
     link: 'https://www.exptechinc.com/wp-content/uploads/2025/05/Baker_MSS_Paper_AprilMay_2025_Approved.pdf',
     blurb:
       'Published in Military Sensing Symposia Active E-O Systems',

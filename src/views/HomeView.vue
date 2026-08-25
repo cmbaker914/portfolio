@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import CanvasViz from '../components/CanvasViz.vue'
 import { site, projects, posts } from '../data/content.js'
+import { asset } from '../lib/asset.js'
 </script>
 
 <template>
@@ -11,7 +12,7 @@ import { site, projects, posts } from '../data/content.js'
     </div>
 
     <div class="hero" v-reveal:none="{ threshold: 0 }">
-      <img src="/nasa.png" alt="" class="hero-image" />
+      <img :src="asset('nasa.png')" alt="" class="hero-image" />
     </div>
 
     <div class="intro">

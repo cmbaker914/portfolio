@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import CanvasViz from '../components/CanvasViz.vue'
 import { site, experience, education, publications, skillGroups } from '../data/content.js'
+import { asset } from '../lib/asset.js'
 </script>
 
 <template>
@@ -15,7 +16,7 @@ import { site, experience, education, publications, skillGroups } from '../data/
           <h1 class="title">{{ site.name }}</h1>
           <p class="subtitle">{{ site.cvSubtitle }}</p>
         </div>
-        <a href="/CaseyBakerResume2026.pdf" download class="pdf-link">Download PDF ↓</a>
+        <a :href="asset('CaseyBakerResume2026.pdf')" download class="pdf-link">Download PDF ↓</a>
       </div>
     </div>
 
