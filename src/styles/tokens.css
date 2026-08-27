@@ -21,3 +21,21 @@
   --radius: 3px;
   --shadow-page: 0 1px 3px rgba(0, 0, 0, 0.12), 0 18px 50px rgba(0, 0, 0, 0.07);
 }
+
+:root[data-theme='dark'] {
+  --paper: #1a1817;
+  --paper-alt: #211f1d;
+  --ink: #f2ede4;
+  --line: #35322e;
+  --accent: #7e9bd0;
+  --clay: #c99a7c;
+  --sage: #9cae96;
+
+  --ink-90: rgba(242, 237, 228, 0.9);
+  --ink-68: rgba(242, 237, 228, 0.68);
+  --ink-65: rgba(242, 237, 228, 0.65);
+  --ink-5: rgba(242, 237, 228, 0.5);
+  --ink-4: rgba(242, 237, 228, 0.4);
+
+  --shadow-page: 0 1px 3px rgba(0, 0, 0, 0.5), 0 18px 50px rgba(0, 0, 0, 0.35);
+}

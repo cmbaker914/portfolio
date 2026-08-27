@@ -1,5 +1,14 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { nav, site } from '../data/content.js'
+import { preferredTheme, setTheme, type Theme } from '../lib/theme.js'
+
+const theme = ref<Theme>(preferredTheme())
+
+function toggleTheme() {
+  theme.value = theme.value === 'dark' ? 'light' : 'dark'
+  setTheme(theme.value)
+}
 </script>
 
 <template>
@@ -9,6 +18,15 @@ import { nav, site } from '../data/content.js'
       <RouterLink v-for="item in nav" :key="item.to" :to="item.to" class="link">
         {{ item.label }}
       </RouterLink>
+      <button
+        class="theme-toggle"
+        type="button"
+        :aria-label="theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+        :title="theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+        @click="toggleTheme"
+      >
+        {{ theme === 'dark' ? '☀' : '☾' }}
+      </button>
     </nav>
   </div>
 </template>
@@ -42,6 +60,28 @@ import { nav, site } from '../data/content.js'
 }
 
 .link.router-link-active {
+  color: var(--accent);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 160ms ease, color 160ms ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
   color: var(--accent);
 }
 </style>

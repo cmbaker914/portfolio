@@ -6,9 +6,14 @@
   box-sizing: border-box;
 }
 
+/* Background lives on <html> only: a <body> background would paint on top of
+   the z-index:-1 network canvas and hide it. */
+html {
+  background: var(--paper);
+}
+
 html,
 body {
-  background: var(--paper);
   color: var(--ink);
 }
 
