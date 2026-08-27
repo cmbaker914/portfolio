@@ -8,28 +8,31 @@ import { asset } from '../lib/asset.js'
 <template>
   <div>
     <NetworkBackground />
-    <div class="hero" v-reveal:none="{ threshold: 0 }">
-      <video
-        class="hero-video"
-        :src="asset('hero_background.mp4')"
-        autoplay
-        loop
-        muted
-        playsinline
-      ></video>
-      <div class="hero-overlay">
-        <h1 class="title" v-reveal="{ delay: 90 }">
-          {{ site.name }}
-          <span class="aurora" aria-hidden="true">
-            <span class="aurora__item"></span>
-            <span class="aurora__item"></span>
-            <span class="aurora__item"></span>
-            <span class="aurora__item"></span>
-          </span>
-        </h1>
-        <p class="lead" v-reveal="{ delay: 180 }">
-          Biomedical engineer, neuroscientist, and machine learning engineer
-        </p>
+    <div class="hero-frame">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="hero" v-reveal:none="{ threshold: 0 }">
+        <video
+          class="hero-video"
+          :src="asset('hero_background.mp4')"
+          autoplay
+          loop
+          muted
+          playsinline
+        ></video>
+        <div class="hero-overlay">
+          <h1 class="title" v-reveal="{ delay: 90 }">
+            {{ site.name }}
+            <span class="aurora" aria-hidden="true">
+              <span class="aurora__item"></span>
+              <span class="aurora__item"></span>
+              <span class="aurora__item"></span>
+              <span class="aurora__item"></span>
+            </span>
+          </h1>
+          <p class="lead" v-reveal="{ delay: 180 }">
+            Biomedical engineer, neuroscientist, and machine learning engineer
+          </p>
+        </div>
       </div>
     </div>
 
@@ -75,11 +78,60 @@ import { asset } from '../lib/asset.js'
 </template>
 
 <style scoped>
+.hero-frame {
+  position: relative;
+}
+
 .hero {
   position: relative;
+  z-index: 0;
   height: 70vh;
-  border-bottom: 1px solid var(--line);
   overflow: hidden;
+}
+
+@property --hero-glow-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/* Glowing aurora frame around the hero: a rotating conic-gradient just behind
+   the hero, blurred so it reads as a soft glow. The opaque video hides the
+   centre, leaving a luminous colour ring around the perimeter that softens the
+   transition into the page. */
+.hero-glow {
+  position: absolute;
+  inset: -14px;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 8px;
+  background: conic-gradient(
+    from var(--hero-glow-angle),
+    #00c2ff,
+    #33ff8c,
+    #ffc640,
+    #e54cff,
+    #00c2ff
+  );
+  filter: blur(22px);
+  opacity: 0.75;
+  animation: hero-glow-spin 14s linear infinite;
+}
+
+@keyframes hero-glow-spin {
+  to {
+    --hero-glow-angle: 360deg;
+  }
+}
+
+:global(html[data-theme='dark']) .hero-glow {
+  opacity: 0.95;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow {
+    animation: none;
+  }
 }
 
 .hero-video {
