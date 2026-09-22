@@ -26,13 +26,15 @@ import { site, projects, posts } from '../data/content.js'
           class="index-tile"
           v-reveal="{ delay: i * 90 }"
         >
-          <div class="index-tile-canvas">
-            <img v-if="p.image" :src="p.image" :alt="p.title" class="index-tile-image" />
-            <CanvasViz v-else type="mini" :kind="p.fig" :seed="i" :width="360" :height="120" />
-          </div>
-          <div class="index-tile-row">
-            <span class="index-label">{{ p.title }}</span>
-            <span class="index-arrow">→</span>
+          <div class="index-tile-content">
+            <div class="index-tile-canvas">
+              <img v-if="p.image" :src="p.image" :alt="p.title" class="index-tile-image" />
+              <CanvasViz v-else type="mini" :kind="p.fig" :seed="i" :width="360" :height="120" />
+            </div>
+            <div class="index-tile-row">
+              <span class="index-label">{{ p.title }}</span>
+              <span class="index-arrow">→</span>
+            </div>
           </div>
         </RouterLink>
       </div>
@@ -87,11 +89,11 @@ import { site, projects, posts } from '../data/content.js'
    with the gradient slowly drifting — no box, works on any background. */
 .title {
   margin: 0;
-  font-family: 'Inter', var(--font-body);
+  font-family: var(--font-display);
   font-size: clamp(3rem, 8vw, 7rem);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.05;
-  letter-spacing: clamp(-1.75px, -0.25vw, -3.5px);
+  letter-spacing: -0.025em;
   background: linear-gradient(90deg, #00c2ff, #33ff8c, #ffc640, #e54cff, #00c2ff);
   background-size: 300% 100%;
   -webkit-background-clip: text;
@@ -114,7 +116,9 @@ import { site, projects, posts } from '../data/content.js'
 }
 
 .lead {
-  font: 400 18px/1.5 var(--font-body);
+  font: 300 18px/1.5 var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
   color: var(--ink-90);
   margin: 24px 0 0;
   max-width: 56ch;
@@ -135,23 +139,90 @@ import { site, projects, posts } from '../data/content.js'
 .index-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
+  gap: 18px;
 }
 
 @media (max-width: 720px) {
   .index-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
   }
 }
 
+/* Card border is the 1px of padding around .index-tile-content: normally the
+   hairline --line, on hover a coloured bar sweeping around behind the content. */
 .index-tile {
+  position: relative;
   display: block;
-  background: var(--paper);
-  padding: 14px;
+  padding: 1px;
+  border-radius: var(--radius);
+  background: var(--line);
+  overflow: hidden;
   text-decoration: none;
   color: var(--ink);
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+.index-tile::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70%;
+  height: 280%;
+  background: linear-gradient(#00c2ff, #e54cff);
+  opacity: 0;
+  transition: opacity 300ms ease;
+  animation: tile-sweep 6s linear infinite;
+  animation-play-state: paused;
+}
+
+.index-tile:hover,
+.index-tile:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+  outline: none;
+}
+
+.index-tile:hover::before,
+.index-tile:focus-visible::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+@keyframes tile-sweep {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .index-tile,
+  .index-tile::before {
+    transition: opacity 300ms ease;
+  }
+
+  .index-tile:hover,
+  .index-tile:focus-visible {
+    transform: none;
+  }
+
+  .index-tile:hover::before,
+  .index-tile:focus-visible::before {
+    animation-play-state: paused;
+  }
+}
+
+.index-tile-content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  border-radius: calc(var(--radius) - 1px);
+  background: var(--paper);
+  padding: 14px;
 }
 
 .index-tile-canvas {
@@ -177,9 +248,28 @@ import { site, projects, posts } from '../data/content.js'
   font: 500 14px var(--font-display);
 }
 
+/* Filled with the same cyan → magenta ramp the card's hover sweep uses. */
 .index-arrow {
-  font: 400 12px var(--font-mono);
-  color: var(--sage);
+  display: inline-block;
+  font: 400 28px/1 var(--font-mono);
+  background: linear-gradient(135deg, #00c2ff, #e54cff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  transition: transform 300ms ease;
+}
+
+.index-tile:hover .index-arrow,
+.index-tile:focus-visible .index-arrow {
+  transform: translateX(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .index-tile:hover .index-arrow,
+  .index-tile:focus-visible .index-arrow {
+    transform: none;
+  }
 }
 
 .note-row {
