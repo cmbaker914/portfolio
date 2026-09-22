@@ -79,7 +79,6 @@ export const nav: NavItem[] = [
   { label: "Projects", to: '/projects' },
   { label: 'Blog', to: '/blog' },
   { label: 'CV', to: '/cv' },
-  { label: 'Home', to: '/' },
 ]
 
 export const projects: Project[] = [
