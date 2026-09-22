@@ -2,21 +2,12 @@
 import CanvasViz from '../components/CanvasViz.vue'
 import NetworkBackground from '../components/NetworkBackground.vue'
 import { site, projects, posts } from '../data/content.js'
-import { asset } from '../lib/asset.js'
 </script>
 
 <template>
   <div>
     <NetworkBackground />
     <div class="hero" v-reveal:none="{ threshold: 0 }">
-      <video
-        class="hero-video"
-        :src="asset('hero_background.mp4')"
-        autoplay
-        loop
-        muted
-        playsinline
-      ></video>
       <div class="hero-overlay">
         <h1 class="title" v-reveal="{ delay: 90 }">
           {{ site.name }}
@@ -77,17 +68,9 @@ import { asset } from '../lib/asset.js'
 <style scoped>
 .hero {
   position: relative;
-  height: 70vh;
+  height: 48vh;
   border-bottom: 1px solid var(--line);
   overflow: hidden;
-}
-
-.hero-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .hero-overlay {
@@ -100,7 +83,6 @@ import { asset } from '../lib/asset.js'
   justify-content: center;
   text-align: center;
   padding: 32px;
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.15) 100%);
 }
 
 .sage {
