@@ -37,7 +37,6 @@ function toggleTheme() {
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
-  border-bottom: 1px solid var(--line);
 }
 
 .brand {
