@@ -116,7 +116,7 @@ import { site, projects, posts } from '../data/content.js'
 .lead {
   font: 400 18px/1.5 var(--font-body);
   color: var(--ink-90);
-  margin: 12px 0 0;
+  margin: 24px 0 0;
   max-width: 56ch;
 }
 
