@@ -54,8 +54,6 @@ import { site, projects, posts } from '../data/content.js'
         <span class="note-read">{{ post.read }}</span>
       </RouterLink>
     </div>
-
-    <div class="terminal-footer" v-reveal>// EOF — {{ site.email }}</div>
   </div>
 </template>
 
@@ -297,14 +295,5 @@ import { site, projects, posts } from '../data/content.js'
 .note-read {
   font: 400 11px var(--font-mono);
   color: var(--ink-4);
-}
-
-.terminal-footer {
-  padding: 18px 32px;
-  /* Fixed dark terminal band in both themes. */
-  background: #1f1d1b;
-  color: rgba(247, 244, 238, 0.6);
-  font: 400 12px var(--font-mono);
-  margin-top: 24px;
 }
 </style>

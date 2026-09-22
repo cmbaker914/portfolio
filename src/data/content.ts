@@ -70,7 +70,7 @@ export const site: SiteMeta = {
   name: 'Casey Baker, PhD',
   role: 'Machine Learning Researcher',
   cvSubtitle: 'Machine learning · neuroscience · remote sensing',
-  email: 'cmbaker191@gmail.com',
+  email: 'cmbaker191@outlook.com',
   terminalUser: 'casey.baker@lab:~$ ./portfolio',
   version: 'v0.0.1 · 2026',
 }
