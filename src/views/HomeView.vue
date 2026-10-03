@@ -28,8 +28,15 @@ import { site, projects, posts } from '../data/content.js'
         >
           <div class="index-tile-content">
             <div class="index-tile-canvas">
-              <img v-if="p.image" :src="p.image" :alt="p.title" class="index-tile-image" />
-              <CanvasViz v-else type="mini" :kind="p.fig" :seed="i" :width="360" :height="120" />
+              <!-- `thumb` lets a project show a different (squarer) image here
+                   than the figure used on the projects page. -->
+              <img
+                v-if="p.thumb || p.image"
+                :src="p.thumb || p.image"
+                :alt="p.title"
+                class="index-tile-image"
+              />
+              <CanvasViz v-else type="mini" :kind="p.fig" :seed="i" :width="360" :height="360" />
             </div>
             <div class="index-tile-row">
               <span class="index-label">{{ p.title }}</span>
@@ -224,15 +231,19 @@ import { site, projects, posts } from '../data/content.js'
 }
 
 .index-tile-canvas {
-  height: 96px;
+  aspect-ratio: 1 / 1;
+  width: 100%;
   overflow: hidden;
+  /* Figures are letterboxed rather than cropped; the leftover space is padded
+     white in light mode, black in dark. */
+  background: var(--figure-pad);
 }
 
 .index-tile-image {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .index-tile-row {

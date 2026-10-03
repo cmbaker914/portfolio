@@ -28,13 +28,9 @@ import { projects } from '../data/content.js'
         <h2 class="project-title">{{ p.title }}</h2>
         <p class="project-body">{{ p.long }}</p>
         <p v-if="p.blurb" class="project-blurb">{{ p.blurb }}</p>
-        <a
-          :href="p.link || '#'"
-          :target="p.link ? '_blank' : undefined"
-          :rel="p.link ? 'noopener' : undefined"
-          class="write-up-link"
-          >Read the write-up →</a
-        >
+        <RouterLink :to="`/projects/${p.slug}`" class="write-up-link">
+          Read the write-up →
+        </RouterLink>
       </div>
     </div>
   </div>
@@ -84,7 +80,7 @@ import { projects } from '../data/content.js'
 
 .fig-canvas {
   height: 240px;
-  background: var(--paper-alt);
+  background: var(--figure-pad);
   border: 1px solid var(--line);
   border-radius: 2px;
   overflow: hidden;
@@ -94,7 +90,8 @@ import { projects } from '../data/content.js'
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  /* Contain, not cover: a cropped figure loses data. */
+  object-fit: contain;
 }
 
 .fig-caption {

@@ -23,11 +23,17 @@ export interface Project {
   title: string
   tag: string
   year: string
-  fig: string
+  // Generated-figure kind, used only as the placeholder when `image` is absent.
+  fig?: string
   image?: string
+  // Square thumbnail for the home page card. Falls back to `image` when absent.
+  thumb?: string
   link?: string
   blurb: string
   long: string
+  // Optional long-form paragraphs for the project's own page (/projects/:slug).
+  // When absent that page falls back to the single `long` summary.
+  writeUp?: string[]
 }
 
 export interface Post {
@@ -85,45 +91,70 @@ export const projects: Project[] = [
   {
     n: '01',
     slug: 'lidar-detection',
-    title: 'Object Detection on Streaming LiDAR Data with Active Learning',
+    title: 'Object detection on streaming LiDAR data with active learning',
     tag: 'active learning',
     year: '2025',
     fig: 'scatter',
     image: asset('lidar.jpg'),
-    link: 'https://www.exptechinc.com/wp-content/uploads/2025/05/Baker_MSS_Paper_AprilMay_2025_Approved.pdf',
+    link: 'https://drive.google.com/file/d/1JkXTkdpAfrudGDI9VV28eXx3RTZzBg-o/view?usp=sharing',
     blurb:
       'Published in Military Sensing Symposia Active E-O Systems',
-    long: 'Developed a diversity-based active learning method for object detection on streaming LiDAR point clouds, addressing the limitations of previous methods that were restricted to non-streaming 2D data. Normalized Object Distribution Entropy (NODE) outperformed standard uncertainty-based approaches by achieving higher detection accuracy with fewer labeled samples, thereby improving labeling efficiency for remote sensing and other computer vision applications.',
+    long: 'A diversity-based active learning method for object detection on streaming LiDAR point clouds, where prior approaches were restricted to non-streaming 2D data. Normalized Object Distribution Entropy (NODE) reached higher detection accuracy with fewer labeled samples than standard uncertainty-based methods, improving labeling efficiency for remote sensing and other computer vision applications.',
   },
   {
     n: '02',
-    slug: 'arrhythmia-atlas',
-    title: 'The arrhythmia atlas',
-    tag: 'signal models',
-    year: '2025',
+    slug: 'spike-inference',
+    title: 'A spatiotemporal convolutional neural network for improved spike detection and inference',
+    tag: 'neuroscience',
+    year: '2023',
     fig: 'ecg2',
-    blurb: 'A foundation model for 12-lead ECG that triages by feel, then explains itself.',
-    long: 'A foundation model for 12-lead ECG. Pretrained on millions of unlabeled traces, it triages by similarity and surfaces the beats that drove each call — so a cardiologist can argue with it.',
+    image: asset('spikeinference.png'),
+    link: 'https://drive.google.com/file/d/1eq4tUyMBnpY4QwOENPpIXuzrCv2GPyPA/view?usp=sharing',
+    blurb: 'Dissertation Chapter 4',
+    long: 'A spatiotemporal deep learning pipeline that predicts the electrical activity of \
+individual neurons from fluorescence calcium videos. Existing spike inference algorithms use \
+only the temporal fluorescence trace — typically the average response across the cell body — \
+while ours draws on spatial information as well. We tested three variations of spatiotemporal deep learning pipelines that differ in how they control background and neuropil \
+contamination; all three improved on state-of-the-art methods in spike-rate correlation with \
+ground truth, spike counts within action potential events, and detection of low SNR, single-spike \
+events across multiple calcium indicators.',
   },
   {
     n: '03',
-    slug: 'counterfactual-cohorts',
-    title: 'Counterfactual cohorts',
-    tag: 'causal inference',
-    year: '2024',
+    slug: 'neuron-segmentation',
+    title: 'A semi-supervised pipeline for accurate neuron segmentation with fewer ground truth labels',
+    tag: 'neuroscience',
+    year: '2023',
     fig: 'bars',
-    blurb: 'Causal ML for ICU treatment effects, built to survive a skeptical clinician.',
-    long: 'Causal machine learning for ICU treatment effects. Doubly-robust estimators with honest confidence intervals, validated against a held-out trial so the numbers mean what they say.',
+    image: asset('SAND.png'),
+    link: 'https://www.eneuro.org/content/11/2/ENEURO.0352-23.2024',
+    blurb: 'Published in eNeuro in 2024',
+    long: 'Two-photon calcium imaging can record thousands of neurons at cellular resolution, but need automated segmentation for proper analysis. Deep learning methods provide superior accuracy and speed, but supervised methods demand large amounts \
+of hand-labeled ground truth. Our semi-supervised pipeline reduces the amount of manual labeling effort needed for training these segmentation models: neural network \
+ensembling generates pseudolabels that train a single shallow U-Net. Across three public datasets \
+it beat three widely used segmentation methods when ground truth labels were scarce, matched \
+state-of-the-art accuracy with roughly a quarter of the labels supervised methods need, and \
+surpassed them with even more labels.',
   },
   {
     n: '04',
-    slug: 'folding-quietly',
-    title: 'Folding, quietly',
-    tag: 'structural biology',
-    year: '2024',
+    slug: 'pattern-completion',
+    title: 'Identifying properties of pattern completion neurons in a computational model of the visual cortex',
+    tag: 'neuroscience',
+    year: '2022',
     fig: 'contour2',
-    blurb: 'Structure priors for antibody design that prefer being right over being clever.',
-    long: 'Structure priors for antibody design. A small, conservative model that prefers being right over being clever — fewer hallucinated loops, more candidates that actually express.',
+    image: asset('L23.png'),
+    link:   'https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1011167',
+    blurb: 'Published in PLoS Computational Biology in 2023',
+    long: 'Neural ensembles are groups of neurons that fire together in response to stimuli, and in \
+mouse visual cortex stimulating just two pattern completion neurons can activate an ensemble and \
+drive visual perception. To understand what makes a neuron capable of that, we built a \
+computational model of the visual cortex recapitulating its structural and functional properties, \
+identified ensembles within it, and repeatedly stimulated pairs of neurons to measure how often \
+they triggered ensemble activation. Neurons that strongly activated ensembles could complete \
+patterns even when the average ensemble voltage was far from threshold, graph theory parameters \
+reliably predicted efficient pattern completion neurons, and a novel latency metric we developed \
+can identify these neurons in vivo with modern imaging.',
   },
 ]
 

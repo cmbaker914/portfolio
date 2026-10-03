@@ -7,6 +7,9 @@
   --clay: #c99a7c;
   --sage: #9cae96;
 
+  /* Letterbox padding behind contained figure images. */
+  --figure-pad: #fff;
+
   /* Translucent plate behind the backdrop-blurred nav bar. */
   --glass: rgba(247, 244, 238, 0.6);
   --glass-line: rgba(46, 44, 41, 0.08);
@@ -34,6 +37,8 @@
   --accent: #7e9bd0;
   --clay: #c99a7c;
   --sage: #9cae96;
+
+  --figure-pad: #000;
 
   --glass: rgba(26, 24, 23, 0.55);
   --glass-line: rgba(242, 237, 228, 0.1);

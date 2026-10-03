@@ -3,12 +3,14 @@ import HomeView from '../views/HomeView.vue'
 import ProjectsView from '../views/ProjectsView.vue'
 import BlogView from '../views/BlogView.vue'
 import PostView from '../views/PostView.vue'
+import ProjectView from '../views/ProjectView.vue'
 import CVView from '../views/CVView.vue'
-import { posts, site } from '../data/content.js'
+import { posts, projects, site } from '../data/content.js'
 
 const routes: RouteRecordRaw[] = [
   { path: '/', name: 'home', component: HomeView, meta: { title: `${site.name} - Portfolio` } },
   { path: '/projects', name: 'projects', component: ProjectsView, meta: { title: 'Projects' } },
+  { path: '/projects/:slug', name: 'project', component: ProjectView },
   { path: '/blog', name: 'blog', component: BlogView, meta: { title: 'Blog' } },
   { path: '/blog/:slug', name: 'post', component: PostView },
   { path: '/cv', name: 'cv', component: CVView, meta: { title: 'CV' } },
@@ -24,8 +26,14 @@ const router = createRouter({
 })
 
 router.afterEach((to) => {
-  const post = to.name === 'post' ? posts.find((p) => p.slug === String(to.params.slug)) : undefined
-  document.title = post?.title ?? (to.meta.title as string | undefined) ?? site.name
+  const slug = String(to.params.slug)
+  const entry =
+    to.name === 'post'
+      ? posts.find((p) => p.slug === slug)
+      : to.name === 'project'
+        ? projects.find((p) => p.slug === slug)
+        : undefined
+  document.title = entry?.title ?? (to.meta.title as string | undefined) ?? site.name
 })
 
 export default router
