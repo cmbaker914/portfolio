@@ -90,8 +90,8 @@ import { projects } from '../data/content.js'
   display: block;
   width: 100%;
   height: 100%;
-  /* Contain, not cover: a cropped figure loses data. */
-  object-fit: contain;
+  /* Cover: fill the frame edge to edge, cropping whatever overflows. */
+  object-fit: cover;
 }
 
 .fig-caption {

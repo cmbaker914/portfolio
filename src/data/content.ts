@@ -67,6 +67,16 @@ export interface EducationEntry {
   year: string
 }
 
+export interface Technology {
+  name: string
+  // Iconify icon name, e.g. 'logos:pytorch-icon'.
+  icon: string
+  // CV heading this item is listed under.
+  group: string
+  // Marquee tint. Optional — by default it's picked from the icon's own colours.
+  color?: string
+}
+
 export interface SkillGroup {
   label: string
   items: string[]
@@ -256,11 +266,35 @@ export const publications: string[] = [
   'Ji, N., Madan, G., Fabre, G., Dayan, A., Baker, C., Kramer, T., Nwabudike, I., Flavell, S. (2021). A neural circuit for flexible control of persistent behavioral states. eLife.',
 ]
 
-export const skillGroups: SkillGroup[] = [
-  { label: 'Languages', items: ['Python', 'MATLAB', 'R'] },
-  {
-    label: 'Frameworks / libraries',
-    items: ['TensorFlow', 'PyTorch', 'Scikit-learn', 'OpenCV', 'NetworkX', 'NumPy', 'Pandas', 'Ray'],
-  },
-  { label: 'MLOps', items: ['CI/CD', 'Docker', 'Git', 'MLflow', 'Airflow'] },
+// Source of truth for the home page marquee and the CV skill lists.
+// `icon` is any Iconify name — browse https://icon-sets.iconify.design
+// (the `logos`, `devicon` and `thesvg-color` sets have full-colour brand logos).
+// `group` is the CV heading the item is listed under; groups appear in the
+// order they're first used here. `color` (optional) overrides the marquee tint,
+// which is otherwise the most vivid colour found in the icon.
+export const technologies: Technology[] = [
+  { name: 'Python', icon: 'logos:python', group: 'Languages' },
+  { name: 'MATLAB', icon: 'devicon:matlab', group: 'Languages' },
+  { name: 'R', icon: 'logos:r-lang', group: 'Languages' },
+  { name: 'TensorFlow', icon: 'logos:tensorflow', group: 'Frameworks / libraries' },
+  { name: 'PyTorch', icon: 'logos:pytorch-icon', group: 'Frameworks / libraries' },
+  { name: 'Scikit-learn', icon: 'devicon:scikitlearn', group: 'Frameworks / libraries' },
+  { name: 'OpenCV', icon: 'logos:opencv', group: 'Frameworks / libraries' },
+  { name: 'NetworkX', icon: 'devicon:networkx', group: 'Frameworks / libraries' },
+  { name: 'NumPy', icon: 'logos:numpy', group: 'Frameworks / libraries' },
+  { name: 'Pandas', icon: 'devicon:pandas', group: 'Frameworks / libraries' },
+  { name: 'Ray', icon: 'thesvg-color:ray', group: 'Frameworks / libraries' },
+  { name: 'CI/CD', icon: 'material-icon-theme:pipeline', group: 'MLOps' },
+  { name: 'Docker', icon: 'logos:docker-icon', group: 'MLOps' },
+  { name: 'Git', icon: 'logos:git-icon', group: 'MLOps' },
+  // The MLflow icon is single-colour, so give it its brand blue explicitly.
+  { name: 'MLflow', icon: 'thesvg-color:mlflow', group: 'MLOps', color: '#0194e2' },
+  { name: 'Airflow', icon: 'logos:airflow-icon', group: 'MLOps' },
 ]
+
+export const skillGroups: SkillGroup[] = technologies.reduce<SkillGroup[]>((groups, t) => {
+  const group = groups.find((g) => g.label === t.group)
+  if (group) group.items.push(t.name)
+  else groups.push({ label: t.group, items: [t.name] })
+  return groups
+}, [])

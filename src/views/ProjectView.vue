@@ -87,7 +87,7 @@ const paragraphs = computed(() => project.value?.writeUp ?? (project.value ? [pr
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .figure-caption {

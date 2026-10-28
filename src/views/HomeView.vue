@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import CanvasViz from '../components/CanvasViz.vue'
 import NetworkBackground from '../components/NetworkBackground.vue'
-import { site, projects, posts } from '../data/content.js'
+import TechMarquee from '../components/TechMarquee.vue'
+import { site, projects, posts, technologies } from '../data/content.js'
 </script>
 
 <template>
@@ -60,6 +61,11 @@ import { site, projects, posts } from '../data/content.js'
         <span class="note-title">{{ post.title }}</span>
         <span class="note-read">{{ post.read }}</span>
       </RouterLink>
+    </div>
+
+    <div class="section section-last">
+      <div class="section-label" v-reveal>Tools I use</div>
+      <TechMarquee :items="technologies" v-reveal="{ delay: 90 }" />
     </div>
   </div>
 </template>
@@ -131,6 +137,10 @@ import { site, projects, posts } from '../data/content.js'
 
 .section {
   padding: 24px 32px 8px;
+}
+
+.section-last {
+  padding-bottom: 56px;
 }
 
 .section-label {
@@ -234,8 +244,8 @@ import { site, projects, posts } from '../data/content.js'
   aspect-ratio: 1 / 1;
   width: 100%;
   overflow: hidden;
-  /* Figures are letterboxed rather than cropped; the leftover space is padded
-     white in light mode, black in dark. */
+  /* Figures are cropped to fill the tile; the pad colour only shows behind
+     transparent images. */
   background: var(--figure-pad);
 }
 
@@ -243,7 +253,7 @@ import { site, projects, posts } from '../data/content.js'
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .index-tile-row {
